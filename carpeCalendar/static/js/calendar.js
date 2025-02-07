@@ -19,7 +19,8 @@ const getWeekNumber = (d) => {
     // UCLouvain weeksystem change every year impossible to have a general rule
     // Replace this by a dictionary?
     const onejan = new Date(d.getFullYear(), 0, 1);
-    const week = Math.ceil((((d.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);
+    const dayOfYear = ((d - onejan + 86400000) / 86400000);
+    const week = Math.ceil((dayOfYear + onejan.getDay() - 2) / 7);
     if (d.getFullYear() === 2024) {
         if (37 <= week && week <= 37 + 14) {
             return "S" + (week - 37).toString();
