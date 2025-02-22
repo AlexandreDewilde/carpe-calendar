@@ -1,0 +1,161 @@
+.valve-container {
+    width: 1587px;
+    height: 2245px;
+    background-color: #C80203;
+    position: relative;
+}
+
+.bubble {
+    border-radius: 46% 54% 40% 60% / 46% 41% 59% 54% ;
+    box-shadow: 0 0 10px white inset;
+    background-color: #B9D7E7;
+    /* transform: translateY(-100%); */
+    animation-name: getDown;
+    animation-iteration-count: infinite;
+    position: absolute;
+}
+
+@keyframes getDown {
+    0%{
+        transform: translateY(-100%);
+    } 100% {
+        transform: translateY( calc(100vh + 100%) );
+    }
+}
+
+#bubble1 {
+    width: 50px;
+    height: 50px;
+    top: 30px;
+    left: 15px;
+}
+
+#bubble2 {
+    width: 75px;
+    height: 75px;
+    top: 40px;
+    left: 80px;
+}
+
+#bubble3 {
+    width: 30px;
+    height: 30px;
+    top: 100px;
+    left: 30px;
+}
+
+.valve-events-container {
+    position: absolute;
+    top: 150px;
+    left: 150px;
+    background-color: white;
+    width: 1287px;
+    height: 2000px;
+}
+
+.valve-title-container {
+    position: absolute;
+    top: 50px;
+    left: 30px;
+    display: flex;
+}
+
+.bubble-week {
+    border-radius: 50%;
+    background-color: #C80203;
+    width: 125px;
+    height: 125px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bubble-week span {
+    font-family: "Anton", sans-serif;
+    font-weight: bold;
+    font-size: 4.3em;
+    color: white;
+}
+
+.valve-title {
+    font-family: "Chewy", system-ui;
+    font-size: 6.5em;
+    font-weight: bold;
+    color: #143456;
+    text-align: center;
+    margin-left: 30px;
+}
+
+.valve-days-container {
+    position: absolute;
+    width: 50%;
+    top: 225px;
+}
+
+.valve-day-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.valve-day-kap-container {
+    border-radius: 99999px;
+    width: 150px;
+    height: 800px;
+    border: 5px solid #566492;
+    margin: 20px;
+}
+
+.valve-day-event-container {
+    width: 100%;
+    height: 800px;
+    background-color: #B9D7E7;
+}
+
+.valve-day-event-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.blank-img-kap {
+    margin-top: calc(4.7em + 20px + 3em);
+}
+
+.valve-kap-logo {
+    height: calc(2em + 50px + 1.5em);
+}
+.valve-kap-logo img {
+    width: 100px;
+}
+
+.valve-day-title {
+    font-family: "Chewy", system-ui;
+    font-size: 4.7em;
+    font-weight: bold;
+    text-align: center;
+    color: #143456;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.valve-event-title {
+    font-family: "Public Sans", sans-serif;
+    font-size: 2em;
+    font-weight: bold;
+    color: black;
+}
+
+.valve-event {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+    font-family: "Public Sans", sans-serif;
+}
+
+.valve-event-description {
+    font-size: 1.5em;
+}

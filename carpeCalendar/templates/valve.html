@@ -1,0 +1,126 @@
+{% extends "base.html"%}
+
+{% block stylesheets %}
+{% load static %}
+<link href="{% static 'css/valve.css' %}" type="text/css" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Chewy&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block sidebar-content %}
+<div class="sidebar-link">
+    <a href="{% url 'calendar' %}">Agenda</a>
+</div>
+<hr class="hr" />
+<div class="sidebar-link">
+    <a href="{% url 'add_event' %}">Ajouter un évènement</a>
+</div>
+<hr class="hr" />
+<div class="sidebar-link">
+    <a href="https://www.carpestudentem.be/couverture-devenements/demande-de-couverture/">Demander une couverture d'évènement</a>
+</div>
+<hr class="hr" />
+<div class="sidebar-link">
+    <a href="https://www.carpestudentem.be/locations/">Locations matos</a>
+</div>
+{% endblock %}
+
+{% block body %}
+<section class="valve-container">
+<div class="bubbles">
+    <div class="bubble" id="bubble1"></div>
+    <div class="bubble" id="bubble2"></div>
+    <div class="bubble" id="bubble3"></div>
+    <div class="bubble" id="bubble4"></div>
+</div>
+<section class="valve-events-container">
+    <div class="valve-title-container">
+        <div class="bubble-week">
+            <span>S12</span>
+        </div>
+        <span class="valve-title">L'agenda de la semaine</span>
+    </div>
+    <section class="valve-days-container">
+        <section class="valve-day-container" id="valve-day-monday-container">
+            <div class="valve-day-kap-container">
+                <div class="blank-img-kap"></div>
+                <div class="valve-kap-logo">
+                    <img src="https://www.carpestudentem.be/wp-content/uploads/2023/09/bubulle.png" alt="logo-kap">
+                </div>
+                <div class="valve-kap-logo">
+                    <img src="https://www.carpestudentem.be/wp-content/uploads/2023/09/bubulle.png" alt="logo-kap">
+                </div>
+                <div class="valve-kap-logo">
+                    <img src="https://www.carpestudentem.be/wp-content/uploads/2023/09/bubulle.png" alt="logo-kap">
+                </div>
+                <div class="valve-kap-logo">
+                    <img src="https://www.carpestudentem.be/wp-content/uploads/2023/09/bubulle.png" alt="logo-kap">
+                </div>
+            </div>
+            <section class="valve-day-event-container">
+                <span class="valve-day-title">Lundi</span>
+                <section class="valve-event">
+                    <span class="valve-event-title">
+                        Maraudes
+                    </span>
+                    <span class="valve-event-description">
+                        Bruxelles central, 13:00-18:00
+                    </span>
+                </section>
+                <section class="valve-event">
+                    <span class="valve-event-title">
+                        Maraudes
+                    </span>
+                    <span class="valve-event-description">
+                        Bruxelles central, 13:00-18:00
+                    </span>
+                </section>
+                <section class="valve-event">
+                    <span class="valve-event-title">
+                        Maraudes
+                    </span>
+                    <span class="valve-event-description">
+                        Bruxelles central, 13:00-18:00
+                    </span>
+                </section>
+                <section class="valve-event">
+                    <span class="valve-event-title">
+                        Maraudes
+                    </span>
+                    <span class="valve-event-description">
+                        Bruxelles central, 13:00-18:00
+                    </span>
+                </section>
+            </section>
+        </section>
+        <section class="valve-day-container" id="valve-day-monday-container">
+            <div class="valve-day-kap-container">
+            </div>
+            <section class="valve-day-event-container">
+
+            </section>
+        </section>
+    </section>
+</section>
+</section>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    const bubbles = document.querySelector('.bubbles');
+    for (let i = 0; i < 30; i++) {
+        let bubble = document.createElement('div')
+        let posX = Math.random() * 100
+        let daley = Math.random() * -10
+        let duration = (Math.random() * 10) + 3
+
+        bubble.className = 'bubble'
+        bubble.style.left = posX + '%'
+        bubble.style.animationDelay = daley + 's'
+        bubble.style.animationDuration = duration + 's'
+        bubbles.appendChild(bubble)
+    }
+</script>
+
+{% endblock %}
