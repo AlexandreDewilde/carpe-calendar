@@ -1,0 +1,30 @@
+{% extends "base.html"%}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block sidebar-content %}
+<div class="sidebar-link">
+    <a href="{% url 'calendar' %}">Agenda</a>
+</div>
+<hr class="hr" />
+<div class="sidebar-link">
+    <a href="{% url 'add_event' %}">Ajouter un évènement</a>
+</div>
+<hr class="hr" />
+<div class="sidebar-link">
+    <a href="https://www.carpestudentem.be/couverture-devenements/demande-de-couverture/">Demander une couverture d'évènement</a>
+</div>
+<hr class="hr" />
+<div class="sidebar-link">
+    <a href="https://www.carpestudentem.be/locations/">Locations matos</a>
+</div>
+{% endblock %}
+
+{% block body %}
+
+
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
