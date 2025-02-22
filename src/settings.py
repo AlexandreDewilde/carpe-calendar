@@ -71,7 +71,11 @@ ROOT_URLCONF = "src.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "templates",
+            BASE_DIR / "carpeCalendar/templates",
+            BASE_DIR / "teams/templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
