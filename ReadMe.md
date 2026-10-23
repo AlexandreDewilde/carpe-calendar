@@ -10,7 +10,7 @@ The primary objective of this project is to foster collaboration by allowing use
 
 The project is built with:
 
-- **Python 3.11**
+- **Python 3.14** (3.12 minimum)
 - **Django** (web framework)
 - **SQLite** (database, limited concurrent user support)
 - **Bootstrap** (frontend framework)
@@ -18,7 +18,7 @@ The project is built with:
 
 ## Installation
 
-To run the project, ensure you have **Python 3.11** or higher installed.
+To run the project, ensure you have **Python 3.12** or higher installed.
 
 1. Clone the repository:
    ```bash

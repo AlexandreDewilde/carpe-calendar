@@ -1,4 +1,4 @@
-django
-whitenoise
-python-dotenv
-django-unfold
+django==6.1.2
+whitenoise==6.12.0
+python-dotenv==1.2.4
+django-unfold==0.110.0

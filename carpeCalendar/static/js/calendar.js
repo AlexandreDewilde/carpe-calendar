@@ -55,96 +55,109 @@ function initPlaceColors() {
     }
 }
 
+function isEventVisible(event) {
+    const categoryElement = document.getElementById("checkbox-" + event.category.name);
+    const placeElement = document.getElementById("checkbox-place-" + event.saved_location.name);
+    let display = false;
+    let atLeastOneChecked = false;
+    for (accessibility of accessibilityList) {
+        const accessibilityElement = document.getElementById("checkbox-" + accessibility);
+        atLeastOneChecked |= accessibilityElement.checked;
+        if (event[accessibility] && accessibilityElement.checked) {
+            display = true;
+        }
+    }
+    display |= !atLeastOneChecked;
+    return display && categoryElement.checked && placeElement.checked;
+}
+
 function createCalendar() {
     const calendarEl = document.getElementById('calendar');
     const calendar = new FullCalendar.Calendar(calendarEl, {
-        themeSystem: 'bootstrap5',
         initialView: screen.width > 800 ? 'dayGridWeek' : 'dayGridDay',
-        customButtons: {
+        buttons: {
             addEvent: {
                 text: 'Ajouter un événement',
+                className: 'hide-on-mobile',
                 click: function() {
                     location.href = "/add-event";
                 }
             },
-            today: {
-                text: 'Aujourd\'hui',
-                click: function() {
-                    calendar.today();
-                }
-            }
+            today: { text: 'Aujourd\'hui' },
+            dayGridDay: { text: 'Jour' },
+            dayGridWeek: { text: 'Semaine', className: 'hide-on-mobile' },
+            dayGridMonth: { text: 'Mois', className: 'hide-on-mobile' },
+            listMonth: { text: 'Liste' },
         },
         locale: 'fr',
         firstDay: 1,
         headerToolbar: {
-            left: 'addEvent',
+            start: 'addEvent',
             center: 'title',
-            right: 'dayGridDay,dayGridWeek,dayGridMonth,listMonth prev,today,next',
+            end: 'dayGridDay,dayGridWeek,dayGridMonth,listMonth prev,today,next',
         },
-        buttonText: {
-            month: 'Mois',
-            listMonth: "Liste",
-            week: 'Semaine',
-            day: 'Jour',
-            today: 'Aujourd\'hui',
-
+        headerToolbarClass: 'calendar-toolbar',
+        toolbarSectionClass: function(arg) {
+            return 'calendar-toolbar-' + arg.name;
+        },
+        views: {
+            dayGridWeek: {
+                dayHeaderFormat: { weekday: 'short', day: 'numeric', month: 'numeric' },
+            },
         },
         navLinks: true,
+        navLinkDayClick: 'dayGridDay',
         nextDayThreshold: '06:00:00',
         weekNumbers: true,
-        weekNumberContent: function(obj) {
-            return getWeekNumber(obj.date);
-        },
-        navLinkDayClick: function(date) {
-            calendar.changeView('dayGridDay', date.toISOString());
+        inlineWeekNumberContent: function(arg) {
+            return getWeekNumber(arg.date);
         },
         height: 'auto',
-        eventBorderColor: 'black',
         titleFormat: { day: 'numeric', year: 'numeric', month: 'long' },
         eventTimeFormat: { hour: 'numeric', minute: '2-digit', hour12: false },
         eventDisplay: 'block',
-        eventBorderColor: 'gray',
+        eventContrastColor: '#fff',
         eventSources : [
             {
                 url: "/events",
             }
         ],
+        // Filtering here rather than hiding elements, because FullCalendar 7 reuses
+        // mounted event elements when the data hasn't changed
+        eventSourceSuccess: function(rawEvents) {
+            return rawEvents.filter(isEventVisible);
+        },
+        eventDataTransform: function(rawEvent) {
+            rawEvent.color = colors[rawEvent.saved_location.name];
+            return rawEvent;
+        },
         eventClick: function(info) {
             location.href = "/event/" + info.event.id;
         },
-        eventDidMount: function(arg) {
-            const element = document.getElementById("checkbox-" + arg.event.extendedProps.category.name);
-            const placeElement = document.getElementById("checkbox-place-" + arg.event.extendedProps.saved_location.name);
-            let display = false;
-            let atLeastOneChecked = false;
-            for (accessibility of accessibilityList) {
-                const accessibilityElement = document.getElementById("checkbox-" + accessibility);
-                atLeastOneChecked |= accessibilityElement.checked;
-                if (arg.event.extendedProps[accessibility] && accessibilityElement.checked) {
-                    display = true;
-                }
+        eventContent: function(arg) {
+            if (arg.view.type === "listMonth") {
+                return true;
             }
-            display |= !atLeastOneChecked;
-            display &= (element.checked && placeElement.checked);
-            if (!display) {
-                arg.el.style.display = "none";
+            const nodes = [];
+            if (arg.timeText) {
+                const time = document.createElement("div");
+                time.className = "event-time";
+                time.textContent = arg.timeText;
+                nodes.push(time);
             }
-
-            const dotEl = arg.el.getElementsByClassName('fc-list-event-dot')[0];
-            if (dotEl) {
-                dotEl.style.borderColor = colors[arg.event.extendedProps.saved_location.name];
-                // dotEl.style.backgroundColor = colors[arg.event.extendedProps.saved_location.name];
+            const title = document.createElement("div");
+            title.className = "event-title";
+            title.textContent = arg.event.title;
+            nodes.push(title);
+            if (screen.width > 900) {
+                const locationEl = document.createElement("div");
+                locationEl.textContent = "📍" + arg.event.extendedProps.location;
+                nodes.push(locationEl);
             }
-            else {
-                arg.el.style.backgroundColor = colors[arg.event.extendedProps.saved_location.name];
-            }
-
-            if (screen.width > 900 && arg.view.type !== "listMonth") {
-                const span = document.createElement("span");
-                span.textContent = "📍" + arg.event.extendedProps.location;
-                arg.el.getElementsByClassName("fc-event-main-frame")[0].append(span);
-            }
-            arg.el.style.cursor = "pointer";
+            const content = document.createElement("div");
+            content.className = "event-content";
+            content.append(...nodes);
+            return { domNodes: [content] };
         },
     });
     calendar.render();
