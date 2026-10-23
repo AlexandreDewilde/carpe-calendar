@@ -3,29 +3,68 @@ body {
     padding: 0;
 }
 
-.fc-h-event {
-    display: block;
-    overflow: auto;
-    padding: 5px;
+/* Event blocks: light tint of the place color, with the full color as a left border for contrast */
+.fc-daygrid-block-event.carpe-event {
+    background: color-mix(in srgb, var(--event-color) 18%, white);
+    border: none;
+    border-left: 4px solid var(--event-color);
+    border-radius: 4px;
+    color: #1f2328;
+    margin-bottom: 4px;
 }
 
-.fc-event-main-frame {
-    display: flex;
-    flex-direction: column;
-    text-wrap: balance;
+.carpe-event .fc-event-main {
+    color: inherit;
 }
 
-.fc-daygrid-block-event .fc-event-time {
-    font-weight: normal;
+.fc-daygrid-block-event.carpe-event:hover {
+    background: color-mix(in srgb, var(--event-color) 30%, white);
 }
 
-.fc-event-time::before {
-    content: "🕛 ";
+.fc-event-past.carpe-event {
+    opacity: 0.6;
 }
 
-.fc-event-title {
+.event-block {
+    white-space: normal;
+    padding: 4px 6px;
+    overflow: hidden;
+}
+
+.event-block-time {
+    font-size: 0.8em;
+    color: #57606a;
+}
+
+.event-block-title {
     font-weight: 700;
-    word-wrap: break-word;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.event-block-location {
+    font-size: 0.8em;
+    color: #57606a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-block-location i {
+    color: var(--event-color);
+}
+
+.event-list-location {
+    color: #57606a;
+    margin-left: 0.5em;
+}
+
+.event-list-location::before {
+    content: "· ";
 }
 
 .dot {
@@ -75,9 +114,6 @@ body {
     .fc-addEvent-button {
         display: none;
     }
-    .fc-event-time::before {
-        content: "";
-    }
     .fc-toolbar-chunk {
         display: flex;
         flex-direction: column;
@@ -105,4 +141,8 @@ body {
 
 .fc-theme-bootstrap5 .fc-list, .fc-theme-bootstrap5 .fc-scrollgrid, .fc-theme-bootstrap5 td, .fc-theme-bootstrap5 th {
     border: 1px solid var(--fc-border-color);
+}
+
+.category-children {
+    margin-left: 0.5rem;
 }

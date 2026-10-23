@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="fr">
+{% load i18n %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Agenda du CarpeStudentem des activaté néo-louvainistes. L'Agenda du carpe (CarpeStudentem) est l'agenda des événements se déroulant à Louvain-la-Neuve.">
+    <meta name="description" content="{% translate "Agenda du CarpeStudentem des activités néo-louvanistes. L'Agenda du Carpe (CarpeStudentem) est l'agenda des événements se déroulant à Louvain-la-Neuve." %}">
     <meta name="keywords" content="Agenda, CarpeStudentem, Planning, Étudiant, Études, École, Université, Cours, Devoirs, Examen, Rendez-vous, Événement, Emploi du temps, Louvain-la-neuve, Louvain la neuve, Louvain, KAP, kot-à-projet, kot, étudiant, étudiants">
     <meta name="author" content="CarpeStudentem">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet"/>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
     <!-- MDB -->
@@ -16,6 +17,12 @@
     <!-- Favicon -->
     {% load static %}
     <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}" >
+    <!-- Progressive web app -->
+    <link rel="manifest" href="{% url 'manifest' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+    <meta name="theme-color" content="#C52224">
+    <meta name="apple-mobile-web-app-title" content="Agenda Carpe">
+    <meta name="mobile-web-app-capable" content="yes">
     <!-- Custom CSS -->
      <link href="{% static 'css/base.css' %}" type="text/css" rel="stylesheet"/>
     <!-- Umani analytics -->
@@ -35,6 +42,14 @@
                 {% block sidebar-after-title %}{% endblock %}
             </div>
         </nav>
+        <form action="{% url 'set_language' %}" method="post" class="language-switcher">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.get_full_path }}">
+            {% get_available_languages as languages %}
+            {% for code, name in languages %}
+            <button type="submit" name="language" value="{{ code }}" class="btn btn-link btn-sm{% if code == LANGUAGE_CODE %} active{% endif %}" title="{{ name }}" lang="{{ code }}">{{ code|upper }}</button>
+            {% endfor %}
+        </form>
         {% block sidebar-content %}{% endblock %}
     </section>
     <section class="main">
@@ -44,4 +59,9 @@
 <!-- MDB -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"></script>
 {% block javascripts %}{% endblock %}
+<script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("{% url 'service_worker' %}");
+    }
+</script>
 </html>

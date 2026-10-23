@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block stylesheets %}
     <!-- Icons for chevrons etc, TODO replace by FA -->
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.css' rel='stylesheet'>
     {% load static %}
     <link href="{% static 'css/calendar.css' %}" type="text/css" rel="stylesheet"/>
 {% endblock %}
@@ -14,17 +15,12 @@
         <h2 class="accordion-header" id="heading-categories">
             <button data-mdb-collapse-init class="accordion-button" type="button" data-mdb-toggle="collapse"
                 data-mdb-target="#collapse-categories" aria-expanded="false" aria-controls="collapse-categories">
-                <i class="fa-solid fa-list me-2"></i> Catégories
+                <i class="fa-solid fa-list me-2"></i> {% translate "Catégories" %}
             </button>
         </h2>
         <div id="collapse-categories" class="accordion-collapse collapse" data-bs-parent="sidebar-accordion" aria-labelledby="heading-categories" data-mdb-parent="#sidebar-accordion">
             <div class="accordion-body">
-                {% for category in categories %}
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{ category }}" name="{{ category }}" id="checkbox-{{ category }}" checked/>
-                    <label class="form-check-label" for="flexCheckChecked">{{ category }}</label>
-                </div>
-                {% endfor %}
+                {% include "category_filter.html" with tree=category_tree %}
             </div>
         </div>
     </section>
@@ -32,7 +28,7 @@
         <h2 class="accordion-header" id="heading-places">
             <button data-mdb-collapse-init class="accordion-button" type="button" data-mdb-toggle="collapse"
                 data-mdb-target="#collapse-places" aria-expanded="false" aria-controls="collapse-places">
-                <i class="fa-solid fa-location-dot me-2"></i> Lieux
+                <i class="fa-solid fa-location-dot me-2"></i> {% translate "Lieux" %}
             </button>
         </h2>
         <div id="collapse-places" class="accordion-collapse collapse" data-bs-parent="sidebar-accordion" aria-labelledby="heading-places" data-mdb-parent="#sidebar-accordion">
@@ -40,7 +36,7 @@
                 {% for place in places %}
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="{{ place }}" name="{{ place }}" id="checkbox-place-{{ place }}" checked/>
-                    <label class="form-check-label" for="flexCheckChecked">{{ place }}<span class="dot" id="dot-{{ place }}"></span></label>
+                    <label class="form-check-label" for="checkbox-place-{{ place }}">{{ place }}<span class="dot" id="dot-{{ place }}"></span></label>
                 </div>
                 {% endfor %}
             </div>
@@ -50,39 +46,62 @@
         <h2 class="accordion-header" id="heading-accessibility">
             <button data-mdb-collapse-init class="accordion-button" type="button" data-mdb-toggle="collapse"
                 data-mdb-target="#collapse-accessibility" aria-expanded="false" aria-controls="collapse-accessibility">
-                <i class="fa-solid fa-bars me-2"></i> Accessibilité
+                <i class="fa-solid fa-bars me-2"></i> {% translate "Accessibilité" %}
             </button>
         </h2>
         <div id="collapse-accessibility" class="accordion-collapse collapse" data-bs-parent="sidebar-accordion" aria-labelledby="heading-accessibility" data-mdb-parent="#sidebar-accordion">
             <div class="accordion-body">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="pmr_friendly" name="pmr_friendly" id="checkbox-pmr_friendly"/>
-                    <label class="form-check-label" for="flexCheckChecked">Uniquement accessible aux PMR</span></label>
+                    <label class="form-check-label" for="checkbox-pmr_friendly">{% translate "Uniquement accessible aux PMR" %}</label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="blind_friendly" name="blind_friendly" id="checkbox-blind_friendly"/>
-                    <label class="form-check-label" for="flexCheckChecked">Uniquement accessible aux ​déficiences visuelles 🧏</span></label>
+                    <label class="form-check-label" for="checkbox-blind_friendly">{% translate "Uniquement accessible aux déficiences visuelles 🦯" %}</label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="deaf_friendly" name="deaf_friendly" id="checkbox-deaf_friendly"/>
-                    <label class="form-check-label" for="flexCheckChecked">Uniquement accessible aux déficiences auditives 🦯</span></label>
+                    <label class="form-check-label" for="checkbox-deaf_friendly">{% translate "Uniquement accessible aux déficiences auditives 🧏" %}</label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="neurodiversity_friendly" name="neurodiversity_friendly" id="checkbox-neurodiversity_friendly"/>
-                    <label class="form-check-label" for="flexCheckChecked">Uniquement accessible aux neurodivergences</span></label>
+                    <label class="form-check-label" for="checkbox-neurodiversity_friendly">{% translate "Uniquement accessible aux neurodivergences" %}</label>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="categories accordion-item">
+        <h2 class="accordion-header" id="heading-subscribe">
+            <button data-mdb-collapse-init class="accordion-button" type="button" data-mdb-toggle="collapse"
+                data-mdb-target="#collapse-subscribe" aria-expanded="false" aria-controls="collapse-subscribe">
+                <i class="fa-solid fa-calendar-plus me-2"></i> {% translate "S'abonner à l'agenda" %}
+            </button>
+        </h2>
+        <div id="collapse-subscribe" class="accordion-collapse collapse" data-bs-parent="sidebar-accordion" aria-labelledby="heading-subscribe" data-mdb-parent="#sidebar-accordion">
+            <div class="accordion-body">
+                <p class="small">{% translate "Recevez tous les événements dans l'agenda de votre téléphone. Il se met à jour automatiquement." %}</p>
+                <div class="d-flex flex-column gap-2">
+                    <a class="btn btn-primary btn-sm" href="{{ subscribe_url }}">Apple, Outlook, Thunderbird…</a>
+                    <a class="btn btn-primary btn-sm" href="https://calendar.google.com/calendar/render?cid={{ subscribe_url|urlencode:'' }}" target="_blank" rel="noopener">{% translate "Google Agenda" %}</a>
                 </div>
             </div>
         </div>
     </section>
     <section class="categories">
         <div class="sidebar-link">
-            <a href="{% url 'add_event' %}">Ajouter un événement</a>
+            <a href="{% url 'add_event' %}">{% translate "Ajouter un événement" %}</a>
         </div>
     </section>
     <hr class="hr" />
     <section class="categories">
         <div class="sidebar-link">
-            <a href="{% url 'create_qr_code' %}">Créer un QR code perso</a>
+            <a href="{% url 'create_qr_code' %}">{% translate "Créer un QR code perso" %}</a>
+        </div>
+    </section>
+    <hr class="hr" />
+    <section class="categories">
+        <div class="sidebar-link">
+            <a href="{% url 'week_image' %}">{% translate "Exporter la semaine en image" %}</a>
         </div>
     </section>
     <hr class="hr" />
@@ -93,11 +112,13 @@
 <!-- Calendar Container -->
 <div id="calendar"></div>
 <footer class="about">
-    <h2 class="text-center">À propos de nous...</h2>
+    <h2 class="text-center">{% translate "À propos de nous..." %}</h2>
     <div>
+        {% blocktranslate trimmed %}
         L'agenda du Carpe (carpestudentem) est un agenda collaboratif qui regroupe les événements de Louvain-la-neuve.
         Il est géré par le Carpe Studentem, un kot-à-projet situé à Louvain-la-Neuve.
         On y retrouve principalement les événements d'associations étudiantes et non-étudiantes.
+        {% endblocktranslate %}
     </div>
     <section class="socials">
         <a href="https://github.com/AlexandreDewilde/carpe-calendar">
@@ -111,7 +132,7 @@
         </a>
     </section>
     <section class="copyright-section">
-        <a href="https://www.carpestudentem.be">https://www.carpestudentem.be</a> © CarpeStudentem - 2024-{% now "Y" %} - Tous droits réservés
+        <a href="https://www.carpestudentem.be">https://www.carpestudentem.be</a> © CarpeStudentem - 2024-{% now "Y" %} - {% translate "Tous droits réservés" %}
     </section>
 </footer>
 
@@ -119,14 +140,21 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.1.15/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.22/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.1.22/index.global.min.js"></script>
 <script>
-    const categories = [];
+    const calendarText = {
+        addEvent: "{% translate 'Ajouter un événement' as text %}{{ text|escapejs }}",
+        today: "{% translate "Aujourd'hui" as text %}{{ text|escapejs }}",
+        month: "{% translate 'Mois' as text %}{{ text|escapejs }}",
+        list: "{% translate 'Liste' as text %}{{ text|escapejs }}",
+        week: "{% translate 'Semaine' as text %}{{ text|escapejs }}",
+        day: "{% translate 'Jour' as text %}{{ text|escapejs }}",
+    };
     const places = [];
-    {% for category in categories %}categories.push("{{ category }}");{% endfor %}
     {% for place in places %}places.push("{{ place }}");{% endfor %}
 </script>
+{{ periods|json_script:"academic-periods" }}
 {% load static %}
 <script src="{% static 'js/calendar.js' %}"></script>
 {% endblock %}

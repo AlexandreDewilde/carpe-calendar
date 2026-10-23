@@ -1,0 +1,11 @@
+{% for category, children in tree %}
+<div class="form-check">
+    <input class="form-check-input category-checkbox" type="checkbox" id="checkbox-category-{{ category.id }}" checked/>
+    <label class="form-check-label" for="checkbox-category-{{ category.id }}">{{ category.name }}</label>
+    {% if children %}
+    <div class="category-children">
+        {% include "category_filter.html" with tree=children %}
+    </div>
+    {% endif %}
+</div>
+{% endfor %}

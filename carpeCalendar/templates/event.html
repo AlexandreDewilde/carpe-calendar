@@ -1,4 +1,5 @@
 {% extends "base.html"%}
+{% load i18n %}
 
 {% block stylesheets %}
 {% load static %}
@@ -7,23 +8,23 @@
 
 {% block sidebar-content %}
 <div class="sidebar-link">
-    <a href="{% url 'calendar' %}">Agenda</a>
+    <a href="{% url 'calendar' %}">{% translate "Agenda" %}</a>
 </div>
 <hr class="hr" />
 <div class="sidebar-link">
-    <a href="{% url 'add_event' %}">Ajouter un évènement</a>
+    <a href="{% url 'add_event' %}">{% translate "Ajouter un évènement" %}</a>
 </div>
 <hr class="hr" />
 <div class="sidebar-link">
-    <a href="{% url 'create_qr_code' %}">Créer un QR code perso</a>
+    <a href="{% url 'create_qr_code' %}">{% translate "Créer un QR code perso" %}</a>
 </div>
 <hr class="hr" />
 <div class="sidebar-link">
-    <a href="https://www.carpestudentem.be/couverture-devenements/demande-de-couverture/">Demander une couverture d'évènement</a>
+    <a href="https://www.carpestudentem.be/couverture-devenements/demande-de-couverture/">{% translate "Demander une couverture d'évènement" %}</a>
 </div>
 <hr class="hr" />
 <div class="sidebar-link">
-    <a href="https://www.carpestudentem.be/locations/">Locations matos</a>
+    <a href="https://www.carpestudentem.be/locations/">{% translate "Locations matos" %}</a>
 </div>
 <hr class="hr" />
 {% endblock %}
@@ -33,59 +34,61 @@
     <div class="jumbotron">
         <h1 class="display-4">{{ event.title }}</h1>
         <div>
-            <p class="lead">Lieu: {{ event.location }}</p>
+            <p class="lead">{% translate "Lieu :" %} {{ event.location }} <a href="{{ map_url }}" target="_blank" rel="noopener"><i class="fa-solid fa-map-location-dot"></i> {% translate "Voir sur la carte" %}</a></p>
         </div>
         <div>
-            <p class="lead">Catégorie: {{ event.category }}</p>
+            <p class="lead">{% translate "Catégorie :" %} {{ event.category }}</p>
         </div>
         <div>
-            <p class="lead">Organisateur: {{ event.organizer }}</p>
+            <p class="lead">{% translate "Organisateur :" %} {{ event.organizer }}</p>
         </div>
 
         {% if event.facebook_link %}
         <div>
-            <p class="lead">Lien facebook: <a href="{{ event.facebook_link }}">{{ event.facebook_link }}</a></p>
+            <p class="lead">{% translate "Lien Facebook :" %} <a href="{{ event.facebook_link }}">{{ event.facebook_link }}</a></p>
         </div>
         {% endif %}
 
         {% if event.form_link %}
         <div>
-            <p class="lead">Lien formulaire du formulaire d'inscription: <a href="{{ event.form_link }}">{{ event.form_link }}</a></p>
+            <p class="lead">{% translate "Lien du formulaire d'inscription :" %} <a href="{{ event.form_link }}">{{ event.form_link }}</a></p>
         </div>
         {% endif %}
 
         {% if event.pmr_friendly %}
         <div>
-            <p class="lead">Accessible aux PMR ♿</p>
+            <p class="lead">{% translate "Accessible aux PMR ♿" %}</p>
         </div>
         {% endif %}
 
         {% if event.deaf_friendly %}
         <div>
-            <p class="lead">Accessible aux ​déficiences visuelles 🧏</p>
+            <p class="lead">{% translate "Accessible aux déficiences auditives 🧏" %}</p>
         </div>
         {% endif %}
 
         {% if event.blind_friendly %}
         <div>
-            <p class="lead">Accessible aux déficiences auditives 🦯</p>
+            <p class="lead">{% translate "Accessible aux déficiences visuelles 🦯" %}</p>
         </div>
         {% endif %}
 
         {% if event.neurodiversity_friendly %}
         <div>
-            <p class="lead">Accessible aux neurodivergences</p>
+            <p class="lead">{% translate "Accessible aux neurodivergences" %}</p>
         </div>
         {% endif %}
 
+
+        <a class="btn btn-primary" href="{% url 'event_ics' event.id %}"><i class="fa-solid fa-calendar-plus me-2"></i>{% translate "Ajouter à mon agenda" %}</a>
 
         <hr class="my-4">
         <!-- display dates in table -->
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Début</th>
-                    <th scope="col">Fin</th>
+                    <th scope="col">{% translate "Début" %}</th>
+                    <th scope="col">{% translate "Fin" %}</th>
                 </tr>
             </thead>
             <tbody id="dates-tbody">

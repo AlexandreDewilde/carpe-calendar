@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block stylesheets %}
+    {% load static %}
+    <link href="{% static 'css/week_image.css' %}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block sidebar-content %}
+<div class="sidebar-link">
+    <a href="{% url 'calendar' %}">{% translate "Agenda" %}</a>
+</div>
+<hr class="hr" />
+<div class="sidebar-link">
+    <a href="{% url 'add_event' %}">{% translate "Ajouter un évènement" %}</a>
+</div>
+<hr class="hr" />
+{% endblock %}
+
+{% block body %}
+<div class="week-image-page">
+    <div class="week-image-controls">
+        <a class="btn btn-outline-secondary btn-sm" href="?date={{ previous_week|date:'Y-m-d' }}"><i class="fa-solid fa-chevron-left"></i> {% translate "Semaine précédente" %}</a>
+        <a class="btn btn-outline-secondary btn-sm" href="?date={{ next_week|date:'Y-m-d' }}">{% translate "Semaine suivante" %} <i class="fa-solid fa-chevron-right"></i></a>
+        <button type="button" class="btn btn-primary btn-sm" id="download-png"><i class="fa-solid fa-download"></i> PNG</button>
+        <button type="button" class="btn btn-primary btn-sm" id="download-jpg"><i class="fa-solid fa-download"></i> JPG</button>
+    </div>
+
+    <div class="week-poster-preview">
+        <div id="week-poster" class="week-poster">
+            <header class="week-poster-header">
+                <img src="{% static 'images/bubulle.png' %}" alt="" width="120" height="120">
+                <div>
+                    <div class="week-poster-brand">Agenda du Carpe</div>
+                    <div class="week-poster-week">
+                        {% if week_label %}{{ week_label }} · {% endif %}{{ monday|date:"j" }}{% if monday.month != sunday.month %} {{ monday|date:"F" }}{% endif %} – {{ sunday|date:"j F Y" }}
+                    </div>
+                </div>
+            </header>
+            <main class="week-poster-days" id="week-poster-days">
+                {% for day, dates in days %}
+                <section class="week-poster-day">
+                    <h2>{{ day|date:"l j F"|capfirst }}</h2>
+                    {% for date in dates %}
+                    <div class="week-poster-event">
+                        <span class="week-poster-time">{{ date.time }}</span>
+                        <span class="week-poster-title">{{ date.event.title }}</span>
+                        <span class="week-poster-location"><svg viewBox="0 0 384 512" aria-hidden="true"><path d="M192 0C86 0 0 86 0 192c0 87 117 243 168 307 12 15 36 15 48 0 51-64 168-220 168-307C384 86 298 0 192 0zm0 256a64 64 0 1 1 0-128 64 64 0 0 1 0 128z"/></svg> {{ date.event.location }}</span>
+                    </div>
+                    {% endfor %}
+                </section>
+                {% empty %}
+                <p class="week-poster-empty">{% translate "Aucun événement cette semaine." %}</p>
+                {% endfor %}
+            </main>
+            <footer class="week-poster-footer">agenda.carpestudentem.be</footer>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        const posterFilename = "agenda-carpe-{{ monday|date:'Y-m-d' }}";
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"></script>
+    <script src="{% static 'js/week_image.js' %}"></script>
+{% endblock %}

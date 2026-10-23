@@ -1,11 +1,13 @@
 from django import forms
 
+from carpeCalendar.models import Category
+
 
 class EventForm(forms.Form):
     title = forms.CharField(max_length=200)
     description = forms.CharField(widget=forms.Textarea, required=False)
     location = forms.CharField(max_length=200)
-    category = forms.CharField(max_length=200)
+    category = forms.ModelChoiceField(queryset=Category.objects.all())
     organizer = forms.CharField(max_length=200)
     facebook_link = forms.URLField(max_length=200, required=False)
     email_organizer = forms.EmailField(max_length=200, required=False)

@@ -7,9 +7,9 @@ for (const date of dates) {
     const datesTbody = document.getElementById("dates-tbody");
     const tr = document.createElement("tr");
     const tdStart = document.createElement("td");
-    tdStart.textContent = startDatetime.toLocaleString();
+    tdStart.textContent = startDatetime.toLocaleString(document.documentElement.lang);
     const tdEnd = document.createElement("td");
-    tdEnd.textContent = endDatetime.toLocaleString();
+    tdEnd.textContent = endDatetime.toLocaleString(document.documentElement.lang);
     tr.appendChild(tdStart);
     tr.appendChild(tdEnd);
     datesTbody.appendChild(tr);

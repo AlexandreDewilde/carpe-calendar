@@ -49,3 +49,18 @@ body {
         margin-left: 0;
     }
 }
+.language-switcher {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 12px;
+}
+
+.language-switcher .btn {
+    color: #57606a;
+    padding: 2px 6px;
+}
+
+.language-switcher .btn.active {
+    color: #C52224;
+    font-weight: 700;
+}

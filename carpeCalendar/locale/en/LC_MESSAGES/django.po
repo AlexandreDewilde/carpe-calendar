@@ -1,0 +1,508 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: carpe-calendar\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-23 23:25+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: carpeCalendar/templates/add_event.html:11
+#: carpeCalendar/templates/create_qr_code.html:11
+#: carpeCalendar/templates/edit_link_invalid.html:11
+#: carpeCalendar/templates/event.html:11
+#: carpeCalendar/templates/week_image.html:11
+msgid "Agenda"
+msgstr "Calendar"
+
+#: carpeCalendar/templates/add_event.html:15
+#: carpeCalendar/templates/create_qr_code.html:15
+#: carpeCalendar/templates/event.html:15
+#: carpeCalendar/templates/week_image.html:15
+msgid "Ajouter un évènement"
+msgstr "Add an event"
+
+#: carpeCalendar/templates/add_event.html:19
+#: carpeCalendar/templates/calendar.html:98
+#: carpeCalendar/templates/event.html:19
+msgid "Créer un QR code perso"
+msgstr "Create a custom QR code"
+
+#: carpeCalendar/templates/add_event.html:23
+#: carpeCalendar/templates/create_qr_code.html:19
+#: carpeCalendar/templates/event.html:23
+msgid "Demander une couverture d'évènement"
+msgstr "Request event coverage"
+
+#: carpeCalendar/templates/add_event.html:27
+#: carpeCalendar/templates/create_qr_code.html:23
+#: carpeCalendar/templates/event.html:27
+msgid "Locations matos"
+msgstr "Equipment rental"
+
+#: carpeCalendar/templates/add_event.html:35
+msgid ""
+"Votre événement a bien été envoyé ! Il sera ajouté dès qu'il aura été "
+"validé."
+msgstr ""
+"Your event has been submitted! It will be added once it has been validated."
+
+#: carpeCalendar/templates/add_event.html:36
+#, python-format
+msgid ""
+"Créez des QR codes pour vos événements et vos paiements <a "
+"href=\"%(qr_code_url)s\">ici</a>"
+msgstr ""
+"Create QR codes for your events and payments <a "
+"href=\"%(qr_code_url)s\">here</a>"
+
+#: carpeCalendar/templates/add_event.html:38
+#, python-format
+msgid ""
+"Pour modifier votre événement jusqu'au %(expires)s, gardez ce lien et ne le "
+"partagez pas :"
+msgstr ""
+"To edit your event until %(expires)s, keep this link and do not share it:"
+
+#: carpeCalendar/templates/add_event.html:40
+msgid "Il vous a aussi été envoyé par email."
+msgstr "It was also sent to you by email."
+
+#: carpeCalendar/templates/add_event.html:51
+msgid ""
+"Vos modifications ont été enregistrées. L'événement sera de nouveau visible "
+"dès qu'il aura été validé."
+msgstr ""
+"Your changes have been saved. The event will be visible again once it has "
+"been validated."
+
+#: carpeCalendar/templates/add_event.html:52
+#, python-format
+msgid "Ce lien de modification reste valable jusqu'au %(expires)s."
+msgstr "This edit link stays valid until %(expires)s."
+
+#: carpeCalendar/templates/add_event.html:56
+msgid ""
+"Vous modifiez votre événement. Après enregistrement, il sera de nouveau "
+"vérifié par notre équipe avant d'être publié."
+msgstr ""
+"You are editing your event. Once saved, our team will check it again before "
+"it is published."
+
+#: carpeCalendar/templates/add_event.html:61
+msgid "Une erreur est survenue lors de l'envoi de l'événement."
+msgstr "Something went wrong while sending the event."
+
+#: carpeCalendar/templates/add_event.html:73
+msgid "Informations de base"
+msgstr "Basic information"
+
+#: carpeCalendar/templates/add_event.html:80
+msgid "Titre"
+msgstr "Title"
+
+#: carpeCalendar/templates/add_event.html:81
+msgid "Mon super événement"
+msgstr "My great event"
+
+#: carpeCalendar/templates/add_event.html:84
+msgid "Organisateur"
+msgstr "Organizer"
+
+#: carpeCalendar/templates/add_event.html:90
+msgid "Lieu"
+msgstr "Place"
+
+#: carpeCalendar/templates/add_event.html:99
+msgid "Catégorie"
+msgstr "Category"
+
+#: carpeCalendar/templates/add_event.html:112
+#: carpeCalendar/templates/add_event.html:123
+#: carpeCalendar/templates/event.html:90
+msgid "Début"
+msgstr "Start"
+
+#: carpeCalendar/templates/add_event.html:116
+#: carpeCalendar/templates/add_event.html:127
+#: carpeCalendar/templates/event.html:91
+msgid "Fin"
+msgstr "End"
+
+#: carpeCalendar/templates/add_event.html:135
+msgid "Ajouter une autre date"
+msgstr "Add another date"
+
+#: carpeCalendar/templates/add_event.html:136
+msgid "Supprimer la dernière date"
+msgstr "Remove the last date"
+
+#: carpeCalendar/templates/add_event.html:144
+msgid "Détails : description, liens, etc. (facultatif)"
+msgstr "Details: description, links, etc. (optional)"
+
+#: carpeCalendar/templates/add_event.html:150
+msgid "Description"
+msgstr "Description"
+
+#: carpeCalendar/templates/add_event.html:151
+msgid "Mon événement..."
+msgstr "My event..."
+
+#: carpeCalendar/templates/add_event.html:155
+msgid "Lien Facebook de l'évènement (facultatif)"
+msgstr "Facebook event link (optional)"
+
+#: carpeCalendar/templates/add_event.html:159
+msgid "Lien du formulaire d'inscription (facultatif)"
+msgstr "Registration form link (optional)"
+
+#: carpeCalendar/templates/add_event.html:161
+msgid ""
+"Lien du formulaire d'inscription: si votre événement a un formulaire "
+"d'inscription"
+msgstr "Registration form link: if your event has a registration form"
+
+#: carpeCalendar/templates/add_event.html:165
+msgid "Email de l'organisateur (facultatif)"
+msgstr "Organizer email (optional)"
+
+#: carpeCalendar/templates/add_event.html:174
+msgid "Accessibilité (facultatif)"
+msgstr "Accessibility (optional)"
+
+#: carpeCalendar/templates/add_event.html:182
+msgid ""
+"J'ai soumis ou vais soumettre un formulaire pour obtenir le <a "
+"href=\"https://granzensemble.wixsite.com/labelinclusion\">label du "
+"GranzEnsemble</a>"
+msgstr ""
+"I have submitted or will submit a form to get the <a "
+"href=\"https://granzensemble.wixsite.com/labelinclusion\">GranzEnsemble "
+"label</a>"
+
+#: carpeCalendar/templates/add_event.html:184
+msgid ""
+"Afin de pouvoir mettre le label sur notre site et nos valves, nous vous "
+"demandons de nous signaler si vous avez rempli ce formulaire."
+msgstr ""
+"So that we can show the label on our website and notice boards, please tell "
+"us if you have filled in this form."
+
+#: carpeCalendar/templates/add_event.html:189
+msgid "Accessibilité aux PMR"
+msgstr "Accessible to people with reduced mobility"
+
+#: carpeCalendar/templates/add_event.html:193
+msgid "Accessibilité aux sourds et malentendants"
+msgstr "Accessible to deaf and hard of hearing people"
+
+#: carpeCalendar/templates/add_event.html:197
+msgid "Accessibilité aux aveugles et malvoyants"
+msgstr "Accessible to blind and visually impaired people"
+
+#: carpeCalendar/templates/add_event.html:201
+msgid "Accessibilité aux personnes neurodiverses"
+msgstr "Accessible to neurodivergent people"
+
+#: carpeCalendar/templates/add_event.html:208
+msgid "Enregistrer les modifications"
+msgstr "Save changes"
+
+#: carpeCalendar/templates/add_event.html:208
+msgid "Ajouter"
+msgstr "Add"
+
+#: carpeCalendar/templates/base.html:6
+msgid ""
+"Agenda du CarpeStudentem des activités néo-louvanistes. L'Agenda du Carpe "
+"(CarpeStudentem) est l'agenda des événements se déroulant à Louvain-la-"
+"Neuve."
+msgstr ""
+"The CarpeStudentem's calendar of what's on in Louvain-la-Neuve. The Agenda "
+"du Carpe (CarpeStudentem) lists the events taking place in Louvain-la-Neuve."
+
+#: carpeCalendar/templates/calendar.html:18
+msgid "Catégories"
+msgstr "Categories"
+
+#: carpeCalendar/templates/calendar.html:31
+msgid "Lieux"
+msgstr "Places"
+
+#: carpeCalendar/templates/calendar.html:49
+msgid "Accessibilité"
+msgstr "Accessibility"
+
+#: carpeCalendar/templates/calendar.html:56
+msgid "Uniquement accessible aux PMR"
+msgstr "Only events accessible to people with reduced mobility"
+
+#: carpeCalendar/templates/calendar.html:60
+msgid "Uniquement accessible aux déficiences visuelles 🦯"
+msgstr "Only events accessible to visually impaired people 🦯"
+
+#: carpeCalendar/templates/calendar.html:64
+msgid "Uniquement accessible aux déficiences auditives 🧏"
+msgstr "Only events accessible to deaf and hard of hearing people 🧏"
+
+#: carpeCalendar/templates/calendar.html:68
+msgid "Uniquement accessible aux neurodivergences"
+msgstr "Only events accessible to neurodivergent people"
+
+#: carpeCalendar/templates/calendar.html:77
+msgid "S'abonner à l'agenda"
+msgstr "Subscribe to the calendar"
+
+#: carpeCalendar/templates/calendar.html:82
+msgid ""
+"Recevez tous les événements dans l'agenda de votre téléphone. Il se met à "
+"jour automatiquement."
+msgstr "Get every event in your phone's calendar. It updates automatically."
+
+#: carpeCalendar/templates/calendar.html:85
+msgid "Google Agenda"
+msgstr "Google Calendar"
+
+#: carpeCalendar/templates/calendar.html:92
+#: carpeCalendar/templates/calendar.html:147
+msgid "Ajouter un événement"
+msgstr "Add an event"
+
+#: carpeCalendar/templates/calendar.html:104
+msgid "Exporter la semaine en image"
+msgstr "Export the week as an image"
+
+#: carpeCalendar/templates/calendar.html:115
+msgid "À propos de nous..."
+msgstr "About us..."
+
+#: carpeCalendar/templates/calendar.html:117
+msgid ""
+"L'agenda du Carpe (carpestudentem) est un agenda collaboratif qui regroupe "
+"les événements de Louvain-la-neuve. Il est géré par le Carpe Studentem, un "
+"kot-à-projet situé à Louvain-la-Neuve. On y retrouve principalement les "
+"événements d'associations étudiantes et non-étudiantes."
+msgstr ""
+"The Agenda du Carpe (carpestudentem) is a collaborative calendar of the "
+"events in Louvain-la-Neuve. It is run by the Carpe Studentem, a kot-à-projet"
+" (student project house) in Louvain-la-Neuve. It mostly lists events from "
+"student and non-student associations."
+
+#: carpeCalendar/templates/calendar.html:135
+msgid "Tous droits réservés"
+msgstr "All rights reserved"
+
+#: carpeCalendar/templates/calendar.html:148
+msgid "Aujourd'hui"
+msgstr "Today"
+
+#: carpeCalendar/templates/calendar.html:149
+msgid "Mois"
+msgstr "Month"
+
+#: carpeCalendar/templates/calendar.html:150
+msgid "Liste"
+msgstr "List"
+
+#: carpeCalendar/templates/calendar.html:151
+msgid "Semaine"
+msgstr "Week"
+
+#: carpeCalendar/templates/calendar.html:152
+msgid "Jour"
+msgstr "Day"
+
+#: carpeCalendar/templates/create_qr_code.html:33
+#: carpeCalendar/templates/create_qr_code.html:100
+msgid "Créer un QR code de payement"
+msgstr "Create a payment QR code"
+
+#: carpeCalendar/templates/create_qr_code.html:34
+#: carpeCalendar/templates/create_qr_code.html:61
+#: carpeCalendar/templates/create_qr_code.html:73
+#: carpeCalendar/templates/create_qr_code.html:88
+msgid "Fermer"
+msgstr "Close"
+
+#: carpeCalendar/templates/create_qr_code.html:39
+msgid "Nom"
+msgstr "Name"
+
+#: carpeCalendar/templates/create_qr_code.html:47
+msgid "BIC (facultatif)"
+msgstr "BIC (optional)"
+
+#: carpeCalendar/templates/create_qr_code.html:51
+msgid "Montant"
+msgstr "Amount"
+
+#: carpeCalendar/templates/create_qr_code.html:55
+msgid "Communication"
+msgstr "Payment reference"
+
+#: carpeCalendar/templates/create_qr_code.html:62
+#: carpeCalendar/templates/create_qr_code.html:89
+msgid "Créer"
+msgstr "Create"
+
+#: carpeCalendar/templates/create_qr_code.html:72
+#: carpeCalendar/templates/create_qr_code.html:103
+msgid "Créer un QR code de wifi"
+msgstr "Create a Wi-Fi QR code"
+
+#: carpeCalendar/templates/create_qr_code.html:78
+msgid "Nom du wifi"
+msgstr "Wi-Fi name"
+
+#: carpeCalendar/templates/create_qr_code.html:82
+msgid "Mot de passe"
+msgstr "Password"
+
+#: carpeCalendar/templates/create_qr_code.html:109
+msgid "Texte ou URL"
+msgstr "Text or URL"
+
+#: carpeCalendar/templates/create_qr_code.html:110
+msgid "Une URL, du texte, ..."
+msgstr "A URL, text, ..."
+
+#: carpeCalendar/templates/create_qr_code.html:115
+msgid "Image"
+msgstr "Image"
+
+#: carpeCalendar/templates/create_qr_code.html:121
+msgid "Couleur"
+msgstr "Color"
+
+#: carpeCalendar/templates/create_qr_code.html:125
+msgid "Couleur de fond"
+msgstr "Background color"
+
+#: carpeCalendar/templates/create_qr_code.html:131
+msgid "Couleur des carrés sur les coins"
+msgstr "Corner square color"
+
+#: carpeCalendar/templates/create_qr_code.html:137
+msgid "Largeur"
+msgstr "Width"
+
+#: carpeCalendar/templates/create_qr_code.html:141
+msgid "Hauteur"
+msgstr "Height"
+
+#: carpeCalendar/templates/create_qr_code.html:147
+msgid "Télécharger le QR code en SVG"
+msgstr "Download the QR code as SVG"
+
+#: carpeCalendar/templates/create_qr_code.html:148
+msgid "Télécharger le QR code en PNG"
+msgstr "Download the QR code as PNG"
+
+#: carpeCalendar/templates/edit_link_invalid.html:19
+msgid "Ce lien de modification n'est pas valide ou a expiré."
+msgstr "This edit link is invalid or has expired."
+
+#: carpeCalendar/templates/edit_link_invalid.html:20
+msgid ""
+"Contactez le <a href=\"https://www.carpestudentem.be\">CarpeStudentem</a> "
+"pour recevoir un nouveau lien."
+msgstr ""
+"Contact the <a href=\"https://www.carpestudentem.be\">CarpeStudentem</a> to "
+"get a new link."
+
+#: carpeCalendar/templates/event.html:37
+msgid "Lieu :"
+msgstr "Place:"
+
+#: carpeCalendar/templates/event.html:37
+msgid "Voir sur la carte"
+msgstr "View on map"
+
+#: carpeCalendar/templates/event.html:40
+msgid "Catégorie :"
+msgstr "Category:"
+
+#: carpeCalendar/templates/event.html:43
+msgid "Organisateur :"
+msgstr "Organizer:"
+
+#: carpeCalendar/templates/event.html:48
+msgid "Lien Facebook :"
+msgstr "Facebook link:"
+
+#: carpeCalendar/templates/event.html:54
+msgid "Lien du formulaire d'inscription :"
+msgstr "Registration form link:"
+
+#: carpeCalendar/templates/event.html:60
+msgid "Accessible aux PMR ♿"
+msgstr "Accessible to people with reduced mobility ♿"
+
+#: carpeCalendar/templates/event.html:66
+msgid "Accessible aux déficiences auditives 🧏"
+msgstr "Accessible to deaf and hard of hearing people 🧏"
+
+#: carpeCalendar/templates/event.html:72
+msgid "Accessible aux déficiences visuelles 🦯"
+msgstr "Accessible to visually impaired people 🦯"
+
+#: carpeCalendar/templates/event.html:78
+msgid "Accessible aux neurodivergences"
+msgstr "Accessible to neurodivergent people"
+
+#: carpeCalendar/templates/event.html:83
+msgid "Ajouter à mon agenda"
+msgstr "Add to my calendar"
+
+#: carpeCalendar/templates/week_image.html:23
+msgid "Semaine précédente"
+msgstr "Previous week"
+
+#: carpeCalendar/templates/week_image.html:24
+msgid "Semaine suivante"
+msgstr "Next week"
+
+#: carpeCalendar/templates/week_image.html:53
+msgid "Aucun événement cette semaine."
+msgstr "No events this week."
+
+#: carpeCalendar/views.py:166
+msgid "Les événements de Louvain-la-Neuve, par le CarpeStudentem"
+msgstr "Events in Louvain-la-Neuve, by the CarpeStudentem"
+
+#: carpeCalendar/views.py:222
+#, python-format
+msgid "Votre événement « %(title)s » sur l'Agenda du Carpe"
+msgstr "Your event \"%(title)s\" on the Agenda du Carpe"
+
+#: carpeCalendar/views.py:224
+#, python-format
+msgid ""
+"Bonjour,\n"
+"\n"
+"Merci d'avoir ajouté « %(title)s » à l'Agenda du Carpe. Il sera visible dès qu'il aura été validé.\n"
+"\n"
+"Pour le modifier jusqu'au %(expires)s, utilisez ce lien (ne le partagez pas) :\n"
+"%(url)s\n"
+"\n"
+"L'équipe du CarpeStudentem"
+msgstr ""
+"Hello,\n"
+"\n"
+"Thank you for adding \"%(title)s\" to the Agenda du Carpe. It will be visible once it has been validated.\n"
+"\n"
+"To edit it until %(expires)s, use this link (do not share it):\n"
+"%(url)s\n"
+"\n"
+"The CarpeStudentem team"

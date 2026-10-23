@@ -1,4 +1,5 @@
 {% extends "base.html"%}
+{% load i18n %}
 
 {% block stylesheets %}
 {% load static %}
@@ -7,19 +8,19 @@
 
 {% block sidebar-content %}
 <div class="sidebar-link">
-    <a href="{% url 'calendar' %}">Agenda</a>
+    <a href="{% url 'calendar' %}">{% translate "Agenda" %}</a>
 </div>
 <hr class="hr" />
 <div class="sidebar-link">
-    <a href="{% url 'add_event' %}">Ajouter un évènement</a>
+    <a href="{% url 'add_event' %}">{% translate "Ajouter un évènement" %}</a>
 </div>
 <hr class="hr" />
 <div class="sidebar-link">
-    <a href="https://www.carpestudentem.be/couverture-devenements/demande-de-couverture/">Demander une couverture d'évènement</a>
+    <a href="https://www.carpestudentem.be/couverture-devenements/demande-de-couverture/">{% translate "Demander une couverture d'évènement" %}</a>
 </div>
 <hr class="hr" />
 <div class="sidebar-link">
-    <a href="https://www.carpestudentem.be/locations/">Locations matos</a>
+    <a href="https://www.carpestudentem.be/locations/">{% translate "Locations matos" %}</a>
 </div>
 {% endblock %}
 
@@ -29,13 +30,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">Créer un QR code de payement</h5>
-                <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Fermer"></button>
+                <h5 class="modal-title" id="paymentModalLabel">{% translate "Créer un QR code de payement" %}</h5>
+                <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="{% translate "Fermer" %}"></button>
             </div>
             <div class="modal-body">
                 <form id="payment-form">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nom</label>
+                        <label for="name" class="form-label">{% translate "Nom" %}</label>
                         <input type="text" class="form-control" id="payment-name" required>
                     </div>
                     <div class="mb-3">
@@ -43,22 +44,22 @@
                         <input type="text" class="form-control" id="payment-iban" required>
                     </div>
                     <div class="mb-3">
-                        <label for="bic" class="form-label">BIC (facultatif)</label>
+                        <label for="bic" class="form-label">{% translate "BIC (facultatif)" %}</label>
                         <input type="text" class="form-control" id="payment-bic">
                     </div>
                     <div class="mb-3">
-                        <label for="amount" class="form-label">Montant</label>
+                        <label for="amount" class="form-label">{% translate "Montant" %}</label>
                         <input type="number" class="form-control" id="payment-amount" required>
                     </div>
                     <div class="mb-3">
-                        <label for="communication" class="form-label">Communication</label>
+                        <label for="communication" class="form-label">{% translate "Communication" %}</label>
                         <textarea class="form-control" id="payment-communication" rows="3"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="payment-close-modal" data-mdb-ripple-init data-mdb-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary btn-success" type="submit" id="create-payment-qr-code">Créer</button>
+                <button type="button" class="btn btn-secondary" id="payment-close-modal" data-mdb-ripple-init data-mdb-dismiss="modal">{% translate "Fermer" %}</button>
+                <button type="button" class="btn btn-primary btn-success" type="submit" id="create-payment-qr-code">{% translate "Créer" %}</button>
             </div>
         </div>
     </div>
@@ -68,24 +69,24 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="wifiModalLabel">Créer un QR code de payement</h5>
-                <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Fermer"></button>
+                <h5 class="modal-title" id="wifiModalLabel">{% translate "Créer un QR code de wifi" %}</h5>
+                <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="{% translate "Fermer" %}"></button>
             </div>
             <div class="modal-body">
                 <form id="wifi-form">
                     <div class="mb-3">
-                        <label for="wifi-ssid" class="form-label">Nom du wifi</label>
+                        <label for="wifi-ssid" class="form-label">{% translate "Nom du wifi" %}</label>
                         <input type="text" class="form-control" id="wifi-ssid" required>
                     </div>
                     <div class="mb-3">
-                        <label for="wifi-password" class="form-label">Mot de passe</label>
+                        <label for="wifi-password" class="form-label">{% translate "Mot de passe" %}</label>
                         <textarea class="form-control" id="wifi-password" rows="3"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="wifi-close-modal" data-mdb-ripple-init data-mdb-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary btn-success" type="submit" id="create-wifi-qr-code">Créer</button>
+                <button type="button" class="btn btn-secondary" id="wifi-close-modal" data-mdb-ripple-init data-mdb-dismiss="modal">{% translate "Fermer" %}</button>
+                <button type="button" class="btn btn-primary btn-success" type="submit" id="create-wifi-qr-code">{% translate "Créer" %}</button>
             </div>
         </div>
     </div>
@@ -96,55 +97,55 @@
         <div class="p-2"></div>
         <div>
             <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#paymentModal">
-                Créer un QR code de payement
+                {% translate "Créer un QR code de payement" %}
             </button>
             <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#wifiModal">
-                Créer un QR code de wifi
+                {% translate "Créer un QR code de wifi" %}
             </button>
         </div>
         <div class="p-2"></div>
         <div class="row mb-3">
             <div class="col-sm mb-3">
-                <label for="qr-code-text" class="form-label">Texte ou URL</label>
-                <textarea id="qr-code-text" class="form-control" placeholder="Une URL, Texte, ..." rows="5">https://facebook.com</textarea>
+                <label for="qr-code-text" class="form-label">{% translate "Texte ou URL" %}</label>
+                <textarea id="qr-code-text" class="form-control" placeholder="{% translate "Une URL, du texte, ..." %}" rows="5">https://facebook.com</textarea>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-sm mb-3">
-                <label for="qr-code-image" class="form-label">Image</label>
+                <label for="qr-code-image" class="form-label">{% translate "Image" %}</label>
                 <input type="file" id="qr-code-image" name="avatar" class="form-control" accept="image/png, image/jpeg, image/svg+xml" />
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-sm mb-3">
-                <label for="qr-code-color" class="form-label">Couleur</label>
+                <label for="qr-code-color" class="form-label">{% translate "Couleur" %}</label>
                 <input type="color" id="qr-code-color" class="form-control">
             </div>
             <div class="col-sm mb-3">
-                <label for="qr-code-background-color" class="form-label">Couleur de fond</label>
+                <label for="qr-code-background-color" class="form-label">{% translate "Couleur de fond" %}</label>
                 <input type="color" id="qr-code-background-color" class="form-control" value="#ffffff">
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-sm mb-3">
-                <label for="qr-code-color-corner-square" class="form-label">Couleur des carrés sur les coins</label>
+                <label for="qr-code-color-corner-square" class="form-label">{% translate "Couleur des carrés sur les coins" %}</label>
                 <input type="color" id="qr-code-color-corner-square" class="form-control">
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-sm mb-3">
-                <label for="qr-code-width" class="form-label">Largeur</label>
+                <label for="qr-code-width" class="form-label">{% translate "Largeur" %}</label>
                 <input type="number" id="qr-code-width" class="form-control" value="500">
             </div>
             <div class="col-sm mb-3">
-                <label for="qr-code-height" class="form-label">Hauteur</label>
+                <label for="qr-code-height" class="form-label">{% translate "Hauteur" %}</label>
                 <input type="number" id="qr-code-height" class="form-control" value="500">
             </div>
     </section>
     <section id="qr-display">
         <div class="download-section">
-            <input type="button" id="generate-qr-code-svg" class="btn btn-primary" value="Télécharger le QR code en svg">
-            <input type="button" id="generate-qr-code-png" class="btn btn-primary" value="Télécharger le QR code en png">
+            <input type="button" id="generate-qr-code-svg" class="btn btn-primary" value="{% translate "Télécharger le QR code en SVG" %}">
+            <input type="button" id="generate-qr-code-png" class="btn btn-primary" value="{% translate "Télécharger le QR code en PNG" %}">
         </div>
         <div id="qr-code"></div>
 
@@ -154,6 +155,6 @@
 {% endblock %}
 
 {% block javascripts %}
-<script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+<script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
 <script src="{% static 'js/create_qr_code.js' %}"></script>
 {% endblock %}

@@ -2,56 +2,79 @@ const colors = {};
 
 const accessibilityList = ["blind_friendly", "deaf_friendly", "pmr_friendly", "neurodiversity_friendly"];
 
-const randomColors = [
-    "#E8ADB6",
-    "#CBADCC",
-    "#A0ACC6",
-    "#F75A3B",
-    "#3F4EB5",
-    "#8AC7AD",
-    "#8AC7AD",
-    "#9F63C4",
+// Each place always gets the same color, picked from its name
+const placeColors = [
+    "#C52224",
+    "#1F77B4",
+    "#2CA02C",
+    "#9467BD",
+    "#FF7F0E",
+    "#17BECF",
+    "#8C564B",
+    "#E377C2",
+    "#BCBD22",
+    "#7F7F7F",
 ];
 
+// UCLouvain week system, edited in the admin (AcademicPeriod)
+const academicPeriods = JSON.parse(document.getElementById("academic-periods").textContent).map((period) => ({
+    ...period,
+    start: parseLocalDate(period.start),
+    end: parseLocalDate(period.end),
+}));
+
+function parseLocalDate(isoDate) {
+    const [year, month, day] = isoDate.split("-").map(Number);
+    return new Date(year, month - 1, day);
+}
+
 const getWeekNumber = (d) => {
-    // https://stackoverflow.com/a/27125580
-    // For 2024; no general solution....
-    // UCLouvain weeksystem change every year impossible to have a general rule
-    // Replace this by a dictionary?
-    const onejan = new Date(d.getFullYear(), 0, 1);
-    const dayOfYear = ((d - onejan + 86400000) / 86400000);
-    const week = Math.ceil((dayOfYear + onejan.getDay() - 2) / 7);
-    if (d.getFullYear() === 2024) {
-        if (37 <= week && week <= 37 + 14) {
-            return "S" + (week - 37).toString();
-        }
-        if (week <= 37 + 14 + 2) {
-            return "Blocus";
-        }
+    const day = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const period = academicPeriods.find((p) => p.start <= day && day <= p.end);
+    if (!period) {
+        return "-";
     }
-    if (d.getFullYear() === 2025) {
-        if ((2 <= week && week <= 4) || (5 + 13 + 2 + 2 < week && week <= 5 + 13 + 2 + 2 + 4)) {
-            return "Examens";
-        }
-        if ((5 + 13 + 2 < week && week <= 5 + 13 + 2 + 2)) {
-            return "Blocus";
-        }
-        if (week == 5 || (5 + 11 < week && week <= 5 + 11 + 2)) {
-            return "Congé";
-        }
-        if (week <= 5 + 13 + 2) {
-            const substract = week <= 5 + 11 ? 5 : 7;
-            return "S" + (week - substract).toString();
-        }
+    if (!period.numbered) {
+        return period.name;
     }
-    return "-";
+    // Round to absorb daylight saving time shifts
+    const weeks = Math.floor(Math.round((day - period.start) / 86400000) / 7);
+    return period.name + (period.first_week_number + weeks).toString();
+}
+
+function placeColor(name) {
+    let hash = 0;
+    for (const char of name) {
+        hash = (hash * 31 + char.codePointAt(0)) | 0;
+    }
+    return placeColors[Math.abs(hash) % placeColors.length];
 }
 
 function initPlaceColors() {
     for (place of places) {
-        colors[place] = randomColors[Math.floor(Math.random() * randomColors.length)];
+        colors[place] = placeColor(place);
         const dot = document.getElementById("dot-" + place);
         dot.style.backgroundColor = colors[place];
+    }
+}
+
+// Checking a category checks all its subcategories, and a parent shows a partial state when only some are checked
+function updateSubcategories(checkbox) {
+    const children = checkbox.parentElement.querySelector(":scope > .category-children");
+    if (children) {
+        for (const child of children.querySelectorAll(".category-checkbox")) {
+            child.checked = checkbox.checked;
+            child.indeterminate = false;
+        }
+    }
+    let group = checkbox.closest(".category-children");
+    while (group) {
+        const parent = group.parentElement.querySelector(":scope > .category-checkbox");
+        const siblings = [...group.querySelectorAll(":scope > .form-check > .category-checkbox")];
+        const checkedCount = siblings.filter((sibling) => sibling.checked && !sibling.indeterminate).length;
+        parent.checked = checkedCount > 0 || siblings.some((sibling) => sibling.indeterminate);
+        parent.indeterminate = parent.checked && checkedCount < siblings.length;
+        group = parent.closest(".category-children");
     }
 }
 
@@ -62,19 +85,19 @@ function createCalendar() {
         initialView: screen.width > 800 ? 'dayGridWeek' : 'dayGridDay',
         customButtons: {
             addEvent: {
-                text: 'Ajouter un événement',
+                text: calendarText.addEvent,
                 click: function() {
                     location.href = "/add-event";
                 }
             },
             today: {
-                text: 'Aujourd\'hui',
+                text: calendarText.today,
                 click: function() {
                     calendar.today();
                 }
             }
         },
-        locale: 'fr',
+        locale: document.documentElement.lang,
         firstDay: 1,
         headerToolbar: {
             left: 'addEvent',
@@ -82,12 +105,11 @@ function createCalendar() {
             right: 'dayGridDay,dayGridWeek,dayGridMonth,listMonth prev,today,next',
         },
         buttonText: {
-            month: 'Mois',
-            listMonth: "Liste",
-            week: 'Semaine',
-            day: 'Jour',
-            today: 'Aujourd\'hui',
-
+            month: calendarText.month,
+            listMonth: calendarText.list,
+            week: calendarText.week,
+            day: calendarText.day,
+            today: calendarText.today,
         },
         navLinks: true,
         nextDayThreshold: '06:00:00',
@@ -99,11 +121,10 @@ function createCalendar() {
             calendar.changeView('dayGridDay', date.toISOString());
         },
         height: 'auto',
-        eventBorderColor: 'black',
         titleFormat: { day: 'numeric', year: 'numeric', month: 'long' },
         eventTimeFormat: { hour: 'numeric', minute: '2-digit', hour12: false },
         eventDisplay: 'block',
-        eventBorderColor: 'gray',
+        displayEventEnd: true,
         eventSources : [
             {
                 url: "/events",
@@ -112,8 +133,28 @@ function createCalendar() {
         eventClick: function(info) {
             location.href = "/event/" + info.event.id;
         },
+        eventClassNames: 'carpe-event',
+        eventContent: function(arg) {
+            if (arg.view.type.startsWith("list")) {
+                return true;
+            }
+            const block = document.createElement("div");
+            block.className = "event-block";
+            const time = document.createElement("div");
+            time.className = "event-block-time";
+            time.textContent = arg.timeText;
+            const title = document.createElement("div");
+            title.className = "event-block-title";
+            title.textContent = arg.event.title;
+            const place = document.createElement("div");
+            place.className = "event-block-location";
+            place.innerHTML = '<i class="fa-solid fa-location-dot"></i> ';
+            place.append(arg.event.extendedProps.location);
+            block.append(time, title, place);
+            return { domNodes: [block] };
+        },
         eventDidMount: function(arg) {
-            const element = document.getElementById("checkbox-" + arg.event.extendedProps.category.name);
+            const element = document.getElementById("checkbox-category-" + arg.event.extendedProps.category.id);
             const placeElement = document.getElementById("checkbox-place-" + arg.event.extendedProps.saved_location.name);
             let display = false;
             let atLeastOneChecked = false;
@@ -125,31 +166,42 @@ function createCalendar() {
                 }
             }
             display |= !atLeastOneChecked;
-            display &= (element.checked && placeElement.checked);
+            display &= (element.checked && (placeElement?.checked ?? true));
             if (!display) {
                 arg.el.style.display = "none";
             }
 
+            const color = colors[arg.event.extendedProps.saved_location.name] ?? placeColor(arg.event.extendedProps.saved_location.name);
+            arg.el.style.setProperty("--event-color", color);
             const dotEl = arg.el.getElementsByClassName('fc-list-event-dot')[0];
             if (dotEl) {
-                dotEl.style.borderColor = colors[arg.event.extendedProps.saved_location.name];
-                // dotEl.style.backgroundColor = colors[arg.event.extendedProps.saved_location.name];
-            }
-            else {
-                arg.el.style.backgroundColor = colors[arg.event.extendedProps.saved_location.name];
-            }
-
-            if (screen.width > 900 && arg.view.type !== "listMonth") {
-                const span = document.createElement("span");
-                span.textContent = "📍" + arg.event.extendedProps.location;
-                arg.el.getElementsByClassName("fc-event-main-frame")[0].append(span);
+                dotEl.style.borderColor = color;
+                const listTitle = arg.el.querySelector(".fc-list-event-title");
+                const listLocation = document.createElement("span");
+                listLocation.className = "event-list-location";
+                listLocation.textContent = arg.event.extendedProps.location;
+                listTitle.append(listLocation);
             }
             arg.el.style.cursor = "pointer";
+
+            if (window.matchMedia("(hover: hover)").matches) {
+                const tooltip = document.createElement("div");
+                for (const line of [arg.event.title, "📍" + arg.event.extendedProps.location, arg.event.extendedProps.category.name + " · " + arg.event.extendedProps.organizer]) {
+                    const lineEl = document.createElement("div");
+                    lineEl.textContent = line;
+                    tooltip.append(lineEl);
+                }
+                new mdb.Tooltip(arg.el, { title: tooltip, html: true, placement: "top" });
+            }
+        },
+        eventWillUnmount: function(arg) {
+            mdb.Tooltip.getInstance(arg.el)?.dispose();
         },
     });
     calendar.render();
-    for (category of categories) {
-        document.getElementById("checkbox-" + category).addEventListener("change", function() {
+    for (const checkbox of document.querySelectorAll(".category-checkbox")) {
+        checkbox.addEventListener("change", function() {
+            updateSubcategories(checkbox);
             calendar.refetchEvents();
         });
     }

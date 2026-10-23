@@ -1,0 +1,119 @@
+.week-image-page {
+    padding: 20px;
+}
+
+.week-image-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+/* The poster is 1080x1350 (Instagram portrait); the preview scales it to fit the page */
+.week-poster-preview {
+    --preview-scale: 0.5;
+    width: calc(1080px * var(--preview-scale));
+    height: calc(1350px * var(--preview-scale));
+    max-width: 100%;
+}
+
+.week-poster {
+    width: 1080px;
+    height: 1350px;
+    transform: scale(var(--preview-scale));
+    transform-origin: top left;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    color: #1f2328;
+    font-family: Roboto, sans-serif;
+    font-size: 30px;
+    overflow: hidden;
+}
+
+.week-poster-header {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 48px 64px;
+    background: #C52224;
+    color: #fff;
+}
+
+.week-poster-header img {
+    background: #fff;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.week-poster-brand {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.week-poster-week {
+    font-size: 34px;
+    opacity: 0.9;
+}
+
+.week-poster-days {
+    flex: 1;
+    padding: 32px 64px 0;
+    overflow: hidden;
+}
+
+.week-poster-day h2 {
+    font-size: 1.15em;
+    font-weight: 700;
+    color: #C52224;
+    margin: 0.7em 0 0.3em;
+}
+
+.week-poster-day:first-child h2 {
+    margin-top: 0;
+}
+
+.week-poster-event {
+    display: grid;
+    grid-template-columns: 3.2em 1fr;
+    column-gap: 0.6em;
+    line-height: 1.25;
+    margin-bottom: 0.35em;
+}
+
+.week-poster-time {
+    font-weight: 500;
+    color: #57606a;
+}
+
+.week-poster-title {
+    font-weight: 700;
+}
+
+.week-poster-location {
+    grid-column: 2;
+    font-size: 0.8em;
+    color: #57606a;
+}
+
+.week-poster-location svg {
+    height: 0.9em;
+    fill: #C52224;
+    vertical-align: -0.05em;
+}
+
+.week-poster-empty {
+    font-size: 40px;
+    color: #57606a;
+    text-align: center;
+    margin-top: 200px;
+}
+
+.week-poster-footer {
+    padding: 24px 64px;
+    font-size: 28px;
+    font-weight: 500;
+    color: #57606a;
+    border-top: 4px solid #C52224;
+}

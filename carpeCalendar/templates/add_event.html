@@ -1,4 +1,5 @@
 {% extends "base.html"%}
+{% load i18n %}
 
 {% block stylesheets %}
     {% load static %}
@@ -7,23 +8,23 @@
 
 {% block sidebar-content %}
     <div class="sidebar-link">
-        <a href="{% url 'calendar' %}">Agenda</a>
+        <a href="{% url 'calendar' %}">{% translate "Agenda" %}</a>
     </div>
     <hr class="hr" />
     <div class="sidebar-link">
-        <a href="{% url 'add_event' %}">Ajouter un évènement</a>
+        <a href="{% url 'add_event' %}">{% translate "Ajouter un évènement" %}</a>
     </div>
     <hr class="hr" />
     <div class="sidebar-link">
-        <a href="{% url 'create_qr_code' %}">Créer un QR code perso</a>
+        <a href="{% url 'create_qr_code' %}">{% translate "Créer un QR code perso" %}</a>
     </div>
     <hr class="hr" />
     <div class="sidebar-link">
-        <a href="https://www.carpestudentem.be/couverture-devenements/demande-de-couverture/">Demander une couverture d'évènement</a>
+        <a href="https://www.carpestudentem.be/couverture-devenements/demande-de-couverture/">{% translate "Demander une couverture d'évènement" %}</a>
     </div>
     <hr class="hr" />
     <div class="sidebar-link">
-        <a href="https://www.carpestudentem.be/locations/">Locations matos</a>
+        <a href="https://www.carpestudentem.be/locations/">{% translate "Locations matos" %}</a>
     </div>
     <hr class="hr" />
 {% endblock %}
@@ -31,8 +32,13 @@
 {% block body %}
     {% if status == "success" %}
         <div class="alert alert-success" role="alert">
-            Votre demande d'ajout d'évènement à été effectué avec succès ! Celui-ci sera ajouté dès qu'il aura été validé.<br>
-            Créez des qr codes pour vos évènements, pour les payements <a href="/create-qr-code">ici</a> <br>
+            {% translate "Votre événement a bien été envoyé ! Il sera ajouté dès qu'il aura été validé." %}<br>
+            {% url 'create_qr_code' as qr_code_url %}{% blocktranslate %}Créez des QR codes pour vos événements et vos paiements <a href="{{ qr_code_url }}">ici</a>{% endblocktranslate %}<br>
+            <p class="mt-2 mb-0">
+                {% blocktranslate with expires=edit_expires_at|date:"j F Y" %}Pour modifier votre événement jusqu'au {{ expires }}, gardez ce lien et ne le partagez pas :{% endblocktranslate %}<br>
+                <a href="{{ edit_url }}" class="text-break">{{ edit_url }}</a>
+                {% if email_organizer %}<br>{% translate "Il vous a aussi été envoyé par email." %}{% endif %}
+            </p>
             <div class="qr-codes">
                 <div id="qr-code-carpe"></div>
                 <div id="qr-code-facebook"></div>
@@ -40,9 +46,19 @@
             </div>
         </div>
     {% endif %}
+    {% if status == "updated" %}
+        <div class="alert alert-success" role="alert">
+            {% translate "Vos modifications ont été enregistrées. L'événement sera de nouveau visible dès qu'il aura été validé." %}<br>
+            {% blocktranslate with expires=edit_expires_at|date:"j F Y" %}Ce lien de modification reste valable jusqu'au {{ expires }}.{% endblocktranslate %}
+        </div>
+    {% elif editing and not status %}
+        <div class="alert alert-info" role="alert">
+            {% translate "Vous modifiez votre événement. Après enregistrement, il sera de nouveau vérifié par notre équipe avant d'être publié." %}
+        </div>
+    {% endif %}
     {% if status == "error" %}
         <div class="alert alert-danger" role="alert">
-            Une erreur est survenue lors de l'ajout de l'évènement.
+            {% translate "Une erreur est survenue lors de l'envoi de l'événement." %}
             {{ messages }}
         </div>
     {% endif %}
@@ -54,50 +70,70 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading-main">
                         <button data-mdb-collapse-init class="accordion-button" type="button" data-mdb-target="#collapse-main" aria-expanded="true" aria-controls="collapse-main">
-                            Informations de base
+                            {% translate "Informations de base" %}
                         </button>
                     </h2>
                     <div id="collapse-main" class="accordion-collapse collapse show" aria-labelledby="heading-main" data-bs-parent="#accordion-form">
                         <div class="accordion-body">
                             <div class="row">
                                 <div class="col-sm mb-3">
-                                    <label for="title" class="form-label required-label">Titre</label>
-                                    <input type="text" name="title" class="form-control" id="title" value="{{ initial.title }}" placeholder="Mon super événement" required>
+                                    <label for="title" class="form-label required-label">{% translate "Titre" %}</label>
+                                    <input type="text" name="title" class="form-control" id="title" value="{{ initial.title }}" placeholder="{% translate "Mon super événement" %}" required>
                                 </div>
                                 <div class="col-sm ms-md-1 mb-3">
-                                    <label for="organizer" class="form-label required-label">Organisateur</label>
+                                    <label for="organizer" class="form-label required-label">{% translate "Organisateur" %}</label>
                                     <input type="text" name="organizer" id="organizer" class="form-control" value="{{ initial.organizer }}" placeholder="CarpeStudentem" required>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm mb-3">
-                                    <label for="location" class="form-label required-label">Lieu</label>
-                                    <input type="text" name="location" id="location" class="form-control" value="{{ initial.value }}" placeholder="La grande casa">
+                                    <label for="location" class="form-label required-label">{% translate "Lieu" %}</label>
+                                    <input type="text" name="location" id="location" class="form-control" value="{{ initial.location }}" placeholder="La grande casa" list="places-list" autocomplete="off">
+                                    <datalist id="places-list">
+                                        {% for place in places %}
+                                            <option value="{{ place }}">
+                                        {% endfor %}
+                                    </datalist>
                                 </div>
                                 <div class="col-sm ms-md-1 mb-3">
-                                    <label for="category" class="form-label required-label">Catégorie</label>
+                                    <label for="category" class="form-label required-label">{% translate "Catégorie" %}</label>
                                     <select name="category" id="category" class="form-select">
-                                        {% for category in categories %}
-                                            <option value="{{ category }}">{{ category }}</option>
+                                        {% for category_id, label in categories %}
+                                            <option value="{{ category_id }}" {% if initial.category == category_id|stringformat:"s" %}selected{% endif %}>{{ label }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
                             <div id="dates-container">
-                                <div class="row mb-3">
-                                    <div class="col-sm mb-3">
-                                        <label for="start" class="form-label required-label">Début</label>
-                                        <input type="datetime-local" name="start" id="start" class="form-control" required>
+                                {% for start, end in dates %}
+                                    {% if forloop.first %}
+                                    <div class="row mb-3">
+                                        <div class="col-sm mb-3">
+                                            <label for="start" class="form-label required-label">{% translate "Début" %}</label>
+                                            <input type="datetime-local" name="start" id="start" class="form-control" value="{{ start }}" required>
+                                        </div>
+                                        <div class="col-sm ms-md-1 mb-3">
+                                            <label for="end" class="form-label required-label">{% translate "Fin" %}</label>
+                                            <input type="datetime-local" name="end" id="end" class="form-control" value="{{ end }}" required>
+                                        </div>
                                     </div>
-                                    <div class="col-sm ms-md-1 mb-3">
-                                        <label for="end" class="form-label required-label">Fin</label>
-                                        <input type="datetime-local" name="end" id="end" class="form-control" required>
+                                    {% else %}
+                                    <div class="mb-3 form-row align-items-center date-form-container">
+                                        <div class="col-sm-3 my-1">
+                                            <label class="form-label">{% translate "Début" %}</label>
+                                            <input type="datetime-local" name="start" class="form-control" value="{{ start }}">
+                                        </div>
+                                        <div class="col-sm-3 my-1">
+                                            <label class="form-label">{% translate "Fin" %}</label>
+                                            <input type="datetime-local" name="end" class="form-control" value="{{ end }}">
+                                        </div>
                                     </div>
-                                </div>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                             <div class="mb-3">
-                                <button type="button" id="add-date" class="btn btn-primary">Ajouter une autre date</button>
-                                <button type="button" id="remove-date" class="btn btn-danger">Supprimer la dernière date</button>
+                                <button type="button" id="add-date" class="btn btn-primary">{% translate "Ajouter une autre date" %}</button>
+                                <button type="button" id="remove-date" class="btn btn-danger">{% translate "Supprimer la dernière date" %}</button>
                             </div>
                         </div>
                     </div>
@@ -105,28 +141,28 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading-details">
                         <button data-mdb-collapse-init class="accordion-button" type="button" data-mdb-target="#collapse-details" aria-expanded="false" aria-controls="collapse-details">
-                            Détails : description, liens, etc. (facultatif)
+                            {% translate "Détails : description, liens, etc. (facultatif)" %}
                         </button>
                     </h2>
                     <div id="collapse-details" class="accordion-collapse collapse" aria-labelledby="heading-details" data-bs-parent="#accordion-form">
                         <div class="accordion-body">
                             <div class="mb-3 col">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea name="description" rows="6" class="form-control" id="description" value="{{ initial.description }}" placeholder="Mon événement..."></textarea>
+                                <label for="description" class="form-label">{% translate "Description" %}</label>
+                                <textarea name="description" rows="6" class="form-control" id="description" placeholder="{% translate "Mon événement..." %}">{{ initial.description }}</textarea>
                             </div>
                             <div class="row">
                                 <div class="col-sm mb-3">
-                                    <label for="facebook_link" class="form-label">Lien Facebook de l'évènement (facultatif)</label>
+                                    <label for="facebook_link" class="form-label">{% translate "Lien Facebook de l'évènement (facultatif)" %}</label>
                                     <input type="url" name="facebook_link" id="facebook_link" class="form-control" value="{{ initial.facebook_link }}" placeholder="https://facebook.com/events/mon-super-événement">
                                 </div>
                                 <div class="col-sm ms-md-1 mb-3">
-                                    <label for="form_link" class="form-label">Lien du formulaire d'inscription (facultatif)</label>
+                                    <label for="form_link" class="form-label">{% translate "Lien du formulaire d'inscription (facultatif)" %}</label>
                                     <input type="url" name="form_link" id="form_link" class="form-control" value="{{ initial.form_link }}" aria-describedby="formHelp" placeholder="https://forms.gle/mon-super-formulaire">
-                                    <div id="formHelp" class="form-text">Lien du formulaire d'inscription: si votre événement a un formulaire d'inscription</div>
+                                    <div id="formHelp" class="form-text">{% translate "Lien du formulaire d'inscription: si votre événement a un formulaire d'inscription" %}</div>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="email_organizer" class="form-label">Email de l'organisateur (facultatif)</label>
+                                <label for="email_organizer" class="form-label">{% translate "Email de l'organisateur (facultatif)" %}</label>
                                 <input type="email" name="email_organizer" id="email_organizer" class="form-control" placeholder="carpestudentem@gmail.com" value="{{ initial.email_organizer }}">
                             </div>
                         </div>
@@ -135,41 +171,41 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading-accessibility">
                         <button data-mdb-collapse-init class="accordion-button" type="button" data-mdb-target="#collapse-accessibility" aria-expanded="false" aria-controls="collapse-accessibility">
-                            Accessibilité (facultatif)
+                            {% translate "Accessibilité (facultatif)" %}
                         </button>
                     </h2>
                     <div id="collapse-accessibility" class="accordion-collapse collapse" aria-labelledby="heading-accessibility" data-bs-parent="#accordion-form">
                         <div class="accordion-body">
                             <div class="mb-3 col">
-                                <input type="checkbox" name="granz_filled" id="granz_filled">
+                                <input type="checkbox" name="granz_filled" id="granz_filled" {% if initial.granz_filled %}checked{% endif %}>
                                 <label for="granz_filled" class="form-label">
-                                    J'ai soumis ou vais soumettre un formulaire pour pour obtenir le <a href="https://granzensemble.wixsite.com/labelinclusion">label du GranzEnsemble</a>
+                                    {% blocktranslate %}J'ai soumis ou vais soumettre un formulaire pour obtenir le <a href="https://granzensemble.wixsite.com/labelinclusion">label du GranzEnsemble</a>{% endblocktranslate %}
                                 </label>
-                                <div class="form-text">Afin de pouvoir mettre le label sur notre site et nos valves, nous vous demandons de nous signaler si vous avez rempli ce formulaire.</div>
+                                <div class="form-text">{% translate "Afin de pouvoir mettre le label sur notre site et nos valves, nous vous demandons de nous signaler si vous avez rempli ce formulaire." %}</div>
                             </div>
                             <div class="row">
                                 <div class="col-sm mb-3">
                                     <input type="checkbox" name="pmr_friendly" id="pmr_friendly" {% if initial.pmr_friendly %}checked{% endif %}>
-                                    <label for="pmr_friendly" class="form-label">Accessibilité aux PMR</label>
+                                    <label for="pmr_friendly" class="form-label">{% translate "Accessibilité aux PMR" %}</label>
                                 </div>
                                 <div class="col-sm ms-md-1 mb-3">
                                     <input type="checkbox" name="deaf_friendly" id="deaf_friendly" {% if initial.deaf_friendly %}checked{% endif %}>
-                                    <label for="deaf-friendly" class="form-label">Accessibilité aux sourds et malentendants</label>
+                                    <label for="deaf-friendly" class="form-label">{% translate "Accessibilité aux sourds et malentendants" %}</label>
                                 </div>
                                 <div class="col-sm ms-md-1 mb-3">
                                     <input type="checkbox" name="blind_friendly" id="blind_friendly" {% if initial.blind_friendly %}checked{% endif %}>
-                                    <label for="blind_friendly" class="form-label">Accessibilité aux aveugles et malvoyants</label>
+                                    <label for="blind_friendly" class="form-label">{% translate "Accessibilité aux aveugles et malvoyants" %}</label>
                                 </div>
                                 <div class="col-sm ms-md-1 mb-3">
                                     <input type="checkbox" name="neurodiversity_friendly" id="neurodiversity_friendly" {% if initial.neurodiversity_friendly %}checked{% endif %}>
-                                    <label for="neurodiversity_friendly" class="form-label">Accessibilité aux personnes neurodiverses</label>
+                                    <label for="neurodiversity_friendly" class="form-label">{% translate "Accessibilité aux personnes neurodiverses" %}</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <button type="submit" id="submit-event" class="btn btn-primary ">Ajouter</button>
+            <button type="submit" id="submit-event" class="btn btn-primary ">{% if editing %}{% translate "Enregistrer les modifications" %}{% else %}{% translate "Ajouter" %}{% endif %}</button>
         </form>
     </div>
 {% endblock %}
@@ -183,6 +219,6 @@
         const carpeLink = "https://agenda.carpestudentem.be/event/{{ id }}";
         const bubulleUrl = "{% static 'images/bubulle.png' %}";
     </script>
-    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
     <script src="{% static 'js/add_event.js' %}"></script>
 {% endblock %}
